@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package ikuaki;
+
+
+service World {
+  rpc Enter(EnterReq) returns (EnterRes) {}
+  rpc Exit(ExitReq) returns (ExitRes) {}
+  rpc Inform(stream InformReq) returns (stream InformRes) {}
+}
+
+service Agent {
+  // information from the world server
+  rpc Update(stream UpdateReq) returns (UpdateRes) {}
+}
+
+
+message AgentId {
+  string id = 1;
+}
+message Empty {}
+
+message EnterReq {
+  string name = 1;
+}
+message EnterRes {}
+
+message ExitReq {}
+message ExitRes {}
+
+message InformReq {
+  string AgentName = 1;
+  string Text = 2;
+}
+message InformRes {
+  string Text = 1;
+}
+
+message UpdateRes {
+  string Text = 1;
+}
+message UpdateReq {
+  string Text = 1 ;
+}
