@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package rafia;
+
+message Empty {
+  
+}
+
+service Greeter {
+  rpc Greet(Empty) returns (Empty) {}
+}
+
+service Fareweller {
+  rpc Farewell(Empty) returns (Empty) {}
+}
