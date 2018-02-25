@@ -3,7 +3,7 @@ syntax = "proto3";
 package rafia;
 
 message Empty {
-  
+  string text = 1; 
 }
 
 service Greeter {

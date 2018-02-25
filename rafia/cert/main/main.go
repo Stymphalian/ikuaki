@@ -1,3 +1,4 @@
+// Binary to create self-signed x509 Certificates and write them to files
 package main
 
 import (
@@ -12,7 +13,7 @@ func main() {
 	cert.WritePrivateKeyAsPEM(keyPair, "private.key.pem")
 	cert.WriteCertAsPEM(certBytes, "cert.public.pem")
 
-	pool, err := cert.CreateCertPoolFromFiles("cert.public.pem", "private.key.pem")
+	pool, err := cert.CreateCertPoolFromPubKeys([]string{"cert.public.pem"})
 	if err != nil {
 		log.Fatal("Failed to create cert pool from private and public PEM files ", err)
 	}

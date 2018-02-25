@@ -6,8 +6,8 @@
 //   cert.WritePrivateKeyAsPEM(keyPair, "private.key.pem")
 //   cert.WriteCertAsPEM(certBytes, "cert.public.pem")
 //
-// To create a CertPool for a given set of cert/private key pairs
-//   pool, err := cert.CreateCertPoolFromFiles("cert.pem", "private.pem")
+// To create a CertPool for a given set filepaths to keys
+//   pool, err := cert.CreateCertPoolFromPubKeys([]string{"cert.pem"})
 //   if err != nil {
 //   	log.Fatal(err)
 //   }
@@ -17,10 +17,10 @@ package cert
 import (
 	"crypto/rand"
 	"crypto/rsa"
-	"crypto/tls"
 	"crypto/x509"
 	"crypto/x509/pkix"
 	"encoding/pem"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"math/big"
@@ -107,24 +107,18 @@ func WriteCertAsPEM(certBytes []byte, outputFilepath string) error {
 	return nil
 }
 
-// Reads the public and private PEM filespaths and create a certPool from them.
-func CreateCertPoolFromFiles(publicKeyPath string, privateKeyPath string) (
-	*x509.CertPool, error) {
-	_, err := tls.LoadX509KeyPair(publicKeyPath, privateKeyPath)
-	if err != nil {
-		return nil, err
-	}
-
-	publicKeyBytes, err := ioutil.ReadFile(publicKeyPath)
-	if err != nil {
-		return nil, err
-	}
-
+func CreateCertPoolFromPubKeys(keyFilepaths []string) (*x509.CertPool, error) {
 	certPool := x509.NewCertPool()
-	ok := certPool.AppendCertsFromPEM([]byte(publicKeyBytes))
-	if !ok {
-		panic("Bad certificates")
-	}
+	for _, publicKeyPath := range keyFilepaths {
+		publicKeyBytes, err := ioutil.ReadFile(publicKeyPath)
+		if err != nil {
+			return nil, err
+		}
 
+		ok := certPool.AppendCertsFromPEM([]byte(publicKeyBytes))
+		if !ok {
+			panic(fmt.Sprintf("Bad certificate %s", publicKeyPath))
+		}
+	}
 	return certPool, nil
 }
