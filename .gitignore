@@ -15,3 +15,7 @@
 
 # Vscode settings
 .vscode/
+
+# Project specific ignores
+notes.dev.txt
+rafia/data/*.pem

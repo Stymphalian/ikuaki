@@ -8,15 +8,16 @@ import (
 	"time"
 
 	"github.com/Stymphalian/ikuaki/api"
-	"github.com/Stymphalian/ikuaki/api/agent/agent"
+	"github.com/Stymphalian/ikuaki/api/agent"
 	pb "github.com/Stymphalian/ikuaki/api/protos"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )
 
 var (
-	worldAddr = flag.String("world_addr", "", "The address to the world server")
-	agentName = flag.String("agent_name", "", "The name of this agent")
+	fWorldAddr = flag.String("world_addr", "", "The address to the world server")
+	fAgentName = flag.String("agent_name", "", "The name of this agent")
+	fPort      = flag.Int("port", 0, "The port to run this server on")
 )
 
 func runWorldInform(c pb.WorldClient, a *agent.Agent) {
@@ -63,26 +64,29 @@ func runWorldInform(c pb.WorldClient, a *agent.Agent) {
 
 func main() {
 	flag.Parse()
-	if *worldAddr == "" {
-		*worldAddr = fmt.Sprintf("localhost:%v", api.WORLD_PORT)
+	if *fWorldAddr == "" {
+		*fWorldAddr = fmt.Sprintf("localhost:%v", api.WORLD_PORT)
 	}
-	if *agentName == "" {
+	if *fAgentName == "" {
 		log.Fatalf("--agent_name must be specified")
 	}
+	if *fPort == 0 {
+		log.Fatalf("--port must be specified")
+	}
 
-	a := &agent.Agent{AgentName: *agentName}
+	a := &agent.Agent{AgentName: *fAgentName}
 
 	// Connect and run a thread to the world server
-	conn, err := grpc.Dial(*worldAddr, grpc.WithInsecure())
+	conn, err := grpc.Dial(*fWorldAddr, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
 	defer conn.Close()
 	worldClient := pb.NewWorldClient(conn)
-	log.Printf("Connected to world %v", *worldAddr)
+	log.Printf("Connected to world %v", *fWorldAddr)
 	go runWorldInform(worldClient, a)
 
-	api.RunServerOrDie(func(s *grpc.Server) {
+	api.RunServerPortOrDie(*fPort, func(s *grpc.Server) {
 		pb.RegisterAgentServer(s, a)
 	})
 }

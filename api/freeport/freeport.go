@@ -1,6 +1,7 @@
 package freeport
 
 import (
+	"log"
 	"net"
 )
 
@@ -17,4 +18,12 @@ func GetPort() (int, error) {
 	}
 	defer l.Close()
 	return l.Addr().(*net.TCPAddr).Port, nil
+}
+
+func GetPortOrDie() int {
+	port, err := GetPort()
+	if err != nil {
+		log.Fatalf("GetPortOrDie: Failed to get a free port %v", err)
+	}
+	return port
 }

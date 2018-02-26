@@ -26,9 +26,8 @@ func RunServerPortOrDie(port int, registerServer RegisterServerFn) {
 	s := grpc.NewServer()
 
 	registerServer(s)
-
-	// Register reflection service on gRPC server.
 	reflection.Register(s)
+
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}

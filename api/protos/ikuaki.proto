@@ -3,6 +3,26 @@ syntax = "proto3";
 package ikuaki;
 
 
+service Lobby {
+  rpc CreateWorld(CreateWorldReq) returns (CreateWorldRes) {}
+  rpc CreateAgent(CreateAgentReq) returns (CreateAgentRes) {}
+}
+
+message CreateWorldReq {
+  string name = 1;
+}
+message CreateWorldRes {
+  string addr = 1;
+}
+message CreateAgentReq {
+  string name = 1;
+}
+message CreateAgentRes {
+  AgentId agent_id = 1;
+  string addr = 2;
+}
+
+
 service World {
   rpc Enter(EnterReq) returns (EnterRes) {}
   rpc Exit(ExitReq) returns (ExitRes) {}

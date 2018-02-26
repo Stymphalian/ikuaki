@@ -8,6 +8,10 @@ It is generated from these files:
 	ikuaki.proto
 
 It has these top-level messages:
+	CreateWorldReq
+	CreateWorldRes
+	CreateAgentReq
+	CreateAgentRes
 	AgentId
 	Empty
 	EnterReq
@@ -41,6 +45,78 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
+type CreateWorldReq struct {
+	Name string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
+}
+
+func (m *CreateWorldReq) Reset()                    { *m = CreateWorldReq{} }
+func (m *CreateWorldReq) String() string            { return proto.CompactTextString(m) }
+func (*CreateWorldReq) ProtoMessage()               {}
+func (*CreateWorldReq) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{0} }
+
+func (m *CreateWorldReq) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+type CreateWorldRes struct {
+	Addr string `protobuf:"bytes,1,opt,name=addr" json:"addr,omitempty"`
+}
+
+func (m *CreateWorldRes) Reset()                    { *m = CreateWorldRes{} }
+func (m *CreateWorldRes) String() string            { return proto.CompactTextString(m) }
+func (*CreateWorldRes) ProtoMessage()               {}
+func (*CreateWorldRes) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{1} }
+
+func (m *CreateWorldRes) GetAddr() string {
+	if m != nil {
+		return m.Addr
+	}
+	return ""
+}
+
+type CreateAgentReq struct {
+	Name string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
+}
+
+func (m *CreateAgentReq) Reset()                    { *m = CreateAgentReq{} }
+func (m *CreateAgentReq) String() string            { return proto.CompactTextString(m) }
+func (*CreateAgentReq) ProtoMessage()               {}
+func (*CreateAgentReq) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{2} }
+
+func (m *CreateAgentReq) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+type CreateAgentRes struct {
+	AgentId *AgentId `protobuf:"bytes,1,opt,name=agent_id,json=agentId" json:"agent_id,omitempty"`
+	Addr    string   `protobuf:"bytes,2,opt,name=addr" json:"addr,omitempty"`
+}
+
+func (m *CreateAgentRes) Reset()                    { *m = CreateAgentRes{} }
+func (m *CreateAgentRes) String() string            { return proto.CompactTextString(m) }
+func (*CreateAgentRes) ProtoMessage()               {}
+func (*CreateAgentRes) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{3} }
+
+func (m *CreateAgentRes) GetAgentId() *AgentId {
+	if m != nil {
+		return m.AgentId
+	}
+	return nil
+}
+
+func (m *CreateAgentRes) GetAddr() string {
+	if m != nil {
+		return m.Addr
+	}
+	return ""
+}
+
 type AgentId struct {
 	Id string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
 }
@@ -48,7 +124,7 @@ type AgentId struct {
 func (m *AgentId) Reset()                    { *m = AgentId{} }
 func (m *AgentId) String() string            { return proto.CompactTextString(m) }
 func (*AgentId) ProtoMessage()               {}
-func (*AgentId) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{0} }
+func (*AgentId) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{4} }
 
 func (m *AgentId) GetId() string {
 	if m != nil {
@@ -63,7 +139,7 @@ type Empty struct {
 func (m *Empty) Reset()                    { *m = Empty{} }
 func (m *Empty) String() string            { return proto.CompactTextString(m) }
 func (*Empty) ProtoMessage()               {}
-func (*Empty) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{1} }
+func (*Empty) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{5} }
 
 type EnterReq struct {
 	Name string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
@@ -72,7 +148,7 @@ type EnterReq struct {
 func (m *EnterReq) Reset()                    { *m = EnterReq{} }
 func (m *EnterReq) String() string            { return proto.CompactTextString(m) }
 func (*EnterReq) ProtoMessage()               {}
-func (*EnterReq) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{2} }
+func (*EnterReq) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{6} }
 
 func (m *EnterReq) GetName() string {
 	if m != nil {
@@ -87,7 +163,7 @@ type EnterRes struct {
 func (m *EnterRes) Reset()                    { *m = EnterRes{} }
 func (m *EnterRes) String() string            { return proto.CompactTextString(m) }
 func (*EnterRes) ProtoMessage()               {}
-func (*EnterRes) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{3} }
+func (*EnterRes) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{7} }
 
 type ExitReq struct {
 }
@@ -95,7 +171,7 @@ type ExitReq struct {
 func (m *ExitReq) Reset()                    { *m = ExitReq{} }
 func (m *ExitReq) String() string            { return proto.CompactTextString(m) }
 func (*ExitReq) ProtoMessage()               {}
-func (*ExitReq) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{4} }
+func (*ExitReq) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{8} }
 
 type ExitRes struct {
 }
@@ -103,17 +179,17 @@ type ExitRes struct {
 func (m *ExitRes) Reset()                    { *m = ExitRes{} }
 func (m *ExitRes) String() string            { return proto.CompactTextString(m) }
 func (*ExitRes) ProtoMessage()               {}
-func (*ExitRes) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{5} }
+func (*ExitRes) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{9} }
 
 type InformReq struct {
-	AgentName string `protobuf:"bytes,1,opt,name=agentName" json:"agentName,omitempty"`
-	Text      string `protobuf:"bytes,2,opt,name=text" json:"text,omitempty"`
+	AgentName string `protobuf:"bytes,1,opt,name=AgentName" json:"AgentName,omitempty"`
+	Text      string `protobuf:"bytes,2,opt,name=Text" json:"Text,omitempty"`
 }
 
 func (m *InformReq) Reset()                    { *m = InformReq{} }
 func (m *InformReq) String() string            { return proto.CompactTextString(m) }
 func (*InformReq) ProtoMessage()               {}
-func (*InformReq) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{6} }
+func (*InformReq) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{10} }
 
 func (m *InformReq) GetAgentName() string {
 	if m != nil {
@@ -130,13 +206,13 @@ func (m *InformReq) GetText() string {
 }
 
 type InformRes struct {
-	Text string `protobuf:"bytes,1,opt,name=text" json:"text,omitempty"`
+	Text string `protobuf:"bytes,1,opt,name=Text" json:"Text,omitempty"`
 }
 
 func (m *InformRes) Reset()                    { *m = InformRes{} }
 func (m *InformRes) String() string            { return proto.CompactTextString(m) }
 func (*InformRes) ProtoMessage()               {}
-func (*InformRes) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{7} }
+func (*InformRes) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{11} }
 
 func (m *InformRes) GetText() string {
 	if m != nil {
@@ -146,13 +222,13 @@ func (m *InformRes) GetText() string {
 }
 
 type UpdateRes struct {
-	Text string `protobuf:"bytes,1,opt,name=text" json:"text,omitempty"`
+	Text string `protobuf:"bytes,1,opt,name=Text" json:"Text,omitempty"`
 }
 
 func (m *UpdateRes) Reset()                    { *m = UpdateRes{} }
 func (m *UpdateRes) String() string            { return proto.CompactTextString(m) }
 func (*UpdateRes) ProtoMessage()               {}
-func (*UpdateRes) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{8} }
+func (*UpdateRes) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{12} }
 
 func (m *UpdateRes) GetText() string {
 	if m != nil {
@@ -162,13 +238,13 @@ func (m *UpdateRes) GetText() string {
 }
 
 type UpdateReq struct {
-	Text string `protobuf:"bytes,1,opt,name=text" json:"text,omitempty"`
+	Text string `protobuf:"bytes,1,opt,name=Text" json:"Text,omitempty"`
 }
 
 func (m *UpdateReq) Reset()                    { *m = UpdateReq{} }
 func (m *UpdateReq) String() string            { return proto.CompactTextString(m) }
 func (*UpdateReq) ProtoMessage()               {}
-func (*UpdateReq) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{9} }
+func (*UpdateReq) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{13} }
 
 func (m *UpdateReq) GetText() string {
 	if m != nil {
@@ -178,6 +254,10 @@ func (m *UpdateReq) GetText() string {
 }
 
 func init() {
+	proto.RegisterType((*CreateWorldReq)(nil), "ikuaki.CreateWorldReq")
+	proto.RegisterType((*CreateWorldRes)(nil), "ikuaki.CreateWorldRes")
+	proto.RegisterType((*CreateAgentReq)(nil), "ikuaki.CreateAgentReq")
+	proto.RegisterType((*CreateAgentRes)(nil), "ikuaki.CreateAgentRes")
 	proto.RegisterType((*AgentId)(nil), "ikuaki.AgentId")
 	proto.RegisterType((*Empty)(nil), "ikuaki.Empty")
 	proto.RegisterType((*EnterReq)(nil), "ikuaki.EnterReq")
@@ -197,6 +277,103 @@ var _ grpc.ClientConn
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
 const _ = grpc.SupportPackageIsVersion4
+
+// Client API for Lobby service
+
+type LobbyClient interface {
+	CreateWorld(ctx context.Context, in *CreateWorldReq, opts ...grpc.CallOption) (*CreateWorldRes, error)
+	CreateAgent(ctx context.Context, in *CreateAgentReq, opts ...grpc.CallOption) (*CreateAgentRes, error)
+}
+
+type lobbyClient struct {
+	cc *grpc.ClientConn
+}
+
+func NewLobbyClient(cc *grpc.ClientConn) LobbyClient {
+	return &lobbyClient{cc}
+}
+
+func (c *lobbyClient) CreateWorld(ctx context.Context, in *CreateWorldReq, opts ...grpc.CallOption) (*CreateWorldRes, error) {
+	out := new(CreateWorldRes)
+	err := grpc.Invoke(ctx, "/ikuaki.Lobby/CreateWorld", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *lobbyClient) CreateAgent(ctx context.Context, in *CreateAgentReq, opts ...grpc.CallOption) (*CreateAgentRes, error) {
+	out := new(CreateAgentRes)
+	err := grpc.Invoke(ctx, "/ikuaki.Lobby/CreateAgent", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Server API for Lobby service
+
+type LobbyServer interface {
+	CreateWorld(context.Context, *CreateWorldReq) (*CreateWorldRes, error)
+	CreateAgent(context.Context, *CreateAgentReq) (*CreateAgentRes, error)
+}
+
+func RegisterLobbyServer(s *grpc.Server, srv LobbyServer) {
+	s.RegisterService(&_Lobby_serviceDesc, srv)
+}
+
+func _Lobby_CreateWorld_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateWorldReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LobbyServer).CreateWorld(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ikuaki.Lobby/CreateWorld",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LobbyServer).CreateWorld(ctx, req.(*CreateWorldReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Lobby_CreateAgent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateAgentReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LobbyServer).CreateAgent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ikuaki.Lobby/CreateAgent",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LobbyServer).CreateAgent(ctx, req.(*CreateAgentReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _Lobby_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "ikuaki.Lobby",
+	HandlerType: (*LobbyServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateWorld",
+			Handler:    _Lobby_CreateWorld_Handler,
+		},
+		{
+			MethodName: "CreateAgent",
+			Handler:    _Lobby_CreateAgent_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "ikuaki.proto",
+}
 
 // Client API for World service
 
@@ -464,22 +641,28 @@ var _Agent_serviceDesc = grpc.ServiceDesc{
 func init() { proto.RegisterFile("ikuaki.proto", fileDescriptor0) }
 
 var fileDescriptor0 = []byte{
-	// 272 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x91, 0x4d, 0x4b, 0x3b, 0x31,
-	0x10, 0xc6, 0x9b, 0xa5, 0xbb, 0xfb, 0xdf, 0xe1, 0x8f, 0x2f, 0x73, 0xaa, 0x8b, 0xa8, 0xcc, 0xa9,
-	0x08, 0x16, 0x59, 0xbd, 0x89, 0x07, 0x0f, 0x7b, 0xe8, 0xc5, 0xc3, 0x82, 0x78, 0x5e, 0x49, 0x94,
-	0x50, 0xf7, 0x35, 0x11, 0xea, 0x37, 0xf1, 0xe3, 0x4a, 0x92, 0x36, 0xc1, 0xd6, 0x83, 0xb7, 0xc9,
-	0x33, 0xcf, 0xe4, 0xe1, 0x37, 0x03, 0xff, 0xe5, 0xea, 0xa3, 0x5e, 0xc9, 0x45, 0x3f, 0x76, 0xba,
-	0xc3, 0xc4, 0xbd, 0xe8, 0x04, 0xd2, 0x87, 0x37, 0xd1, 0xea, 0x25, 0xc7, 0x03, 0x88, 0x24, 0x9f,
-	0xb1, 0x0b, 0x36, 0xcf, 0xaa, 0x48, 0x72, 0x4a, 0x21, 0x2e, 0x9b, 0x5e, 0x7f, 0xd2, 0x19, 0xfc,
-	0x2b, 0x5b, 0x2d, 0xc6, 0x4a, 0x0c, 0x88, 0x30, 0x6d, 0xeb, 0x46, 0x6c, 0x6c, 0xb6, 0x26, 0xf0,
-	0x7d, 0x45, 0x19, 0xa4, 0xe5, 0x5a, 0xea, 0x4a, 0x0c, 0xa1, 0x54, 0x74, 0x0f, 0xd9, 0xb2, 0x7d,
-	0xed, 0xc6, 0xc6, 0x7c, 0x71, 0x0a, 0x59, 0x6d, 0x22, 0x1f, 0xc3, 0x3f, 0x41, 0x30, 0x01, 0x5a,
-	0xac, 0xf5, 0x2c, 0x72, 0x01, 0xa6, 0xa6, 0xf3, 0x30, 0xae, 0xbc, 0x81, 0xfd, 0x34, 0x3c, 0xf5,
-	0xbc, 0xd6, 0xe2, 0x0f, 0x86, 0xe1, 0x37, 0x43, 0xf1, 0xc5, 0x20, 0x7e, 0xee, 0xc6, 0x77, 0x8e,
-	0x57, 0x10, 0x5b, 0x1a, 0x3c, 0x5a, 0x6c, 0x36, 0xb6, 0x85, 0xcf, 0x77, 0x15, 0x45, 0x13, 0xbc,
-	0x84, 0xa9, 0xa1, 0xc4, 0x43, 0xdf, 0x73, 0xf8, 0xf9, 0x8e, 0x60, 0xbc, 0xb7, 0x90, 0x38, 0x0e,
-	0x3c, 0xde, 0x36, 0xfd, 0x5a, 0xf2, 0x3d, 0x49, 0xd1, 0x64, 0xce, 0xae, 0x59, 0x71, 0x07, 0xb1,
-	0x3d, 0x11, 0x16, 0x90, 0x38, 0x88, 0x30, 0xee, 0xa1, 0xf2, 0x3d, 0xc9, 0x8e, 0xbf, 0x24, 0xf6,
-	0xdc, 0x37, 0xdf, 0x01, 0x00, 0x00, 0xff, 0xff, 0xf8, 0xd0, 0xe0, 0xae, 0xfe, 0x01, 0x00, 0x00,
+	// 363 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x93, 0xd1, 0x4a, 0xc3, 0x30,
+	0x14, 0x86, 0x97, 0xb1, 0xb6, 0xeb, 0x99, 0x4c, 0xcd, 0x85, 0x68, 0x11, 0x95, 0xe0, 0xc5, 0x18,
+	0x38, 0xa4, 0x7a, 0x27, 0x22, 0x22, 0xbb, 0x18, 0x88, 0x48, 0x51, 0xbc, 0x94, 0x8c, 0x44, 0x29,
+	0x73, 0xed, 0xd6, 0x44, 0xd8, 0x1e, 0xc1, 0x37, 0xf0, 0x71, 0x25, 0x69, 0xd3, 0x6c, 0x5d, 0x07,
+	0xde, 0x9d, 0xfd, 0xf9, 0x72, 0x4e, 0xce, 0xff, 0xaf, 0xb0, 0x13, 0x4f, 0xbe, 0xe9, 0x24, 0x1e,
+	0xcc, 0xb2, 0x54, 0xa6, 0xd8, 0xcd, 0x7f, 0x91, 0x73, 0xe8, 0x3e, 0x64, 0x9c, 0x4a, 0xfe, 0x96,
+	0x66, 0x5f, 0x2c, 0xe2, 0x73, 0x8c, 0xa1, 0x95, 0xd0, 0x29, 0x3f, 0x44, 0x67, 0xa8, 0xe7, 0x47,
+	0xba, 0xde, 0xa0, 0x84, 0xa2, 0x28, 0x63, 0x99, 0xa1, 0x54, 0x6d, 0xa9, 0xfb, 0x4f, 0x9e, 0xc8,
+	0x6d, 0xbd, 0x9e, 0x2b, 0x94, 0xc0, 0x7d, 0x68, 0x53, 0x55, 0xbf, 0xc7, 0x4c, 0x93, 0x9d, 0x70,
+	0x77, 0x50, 0x3c, 0x56, 0x33, 0x23, 0x16, 0x79, 0x34, 0x2f, 0xca, 0xb9, 0xcd, 0x95, 0xb9, 0x47,
+	0xe0, 0x15, 0x1c, 0xee, 0x42, 0xb3, 0x68, 0xe2, 0x47, 0xcd, 0x98, 0x11, 0x0f, 0x9c, 0xe1, 0x74,
+	0x26, 0x97, 0xe4, 0x04, 0xda, 0xc3, 0x44, 0xf2, 0x6c, 0xdb, 0xab, 0xa0, 0x3c, 0x17, 0xc4, 0x07,
+	0x6f, 0xb8, 0x88, 0xd5, 0x02, 0xb6, 0x14, 0xe4, 0x16, 0xfc, 0x51, 0xf2, 0x91, 0x66, 0x53, 0xd5,
+	0xe2, 0x18, 0x7c, 0x3d, 0xf2, 0xc9, 0xf6, 0xb1, 0x82, 0x1a, 0xf0, 0xc2, 0x17, 0xd2, 0x3c, 0x52,
+	0xd5, 0xe4, 0xd4, 0x5e, 0x17, 0x25, 0x80, 0xd6, 0x81, 0xd7, 0x19, 0xa3, 0x92, 0xff, 0x03, 0x98,
+	0xd7, 0x01, 0xe1, 0x0f, 0x02, 0xe7, 0x31, 0x1d, 0x8f, 0x97, 0xf8, 0x0e, 0x3a, 0x2b, 0x79, 0xe1,
+	0x03, 0x63, 0xe7, 0x7a, 0xd4, 0x41, 0xbd, 0x2e, 0x48, 0xc3, 0x36, 0xd0, 0x4b, 0x55, 0x1b, 0x98,
+	0x7c, 0x83, 0x7a, 0x5d, 0x90, 0x46, 0xf8, 0x8b, 0xc0, 0xc9, 0x87, 0x5f, 0x80, 0xa3, 0x9d, 0xc5,
+	0x7b, 0x06, 0x36, 0x41, 0x04, 0x55, 0x45, 0x4d, 0xee, 0x43, 0x4b, 0x39, 0x8e, 0xcb, 0xbf, 0x40,
+	0x11, 0x45, 0x50, 0x11, 0x14, 0x7b, 0x0d, 0x6e, 0xee, 0x29, 0xde, 0x37, 0x87, 0x65, 0x44, 0xc1,
+	0x86, 0x24, 0x48, 0xa3, 0x87, 0x2e, 0x51, 0x78, 0x03, 0x4e, 0xbe, 0x55, 0x08, 0x6e, 0x6e, 0xa8,
+	0xbd, 0x5e, 0x1a, 0x1c, 0x6c, 0x48, 0xfa, 0xfa, 0xd8, 0xd5, 0x9f, 0xcf, 0xd5, 0x5f, 0x00, 0x00,
+	0x00, 0xff, 0xff, 0x31, 0xd1, 0x29, 0xb8, 0x4e, 0x03, 0x00, 0x00,
 }
