@@ -55,10 +55,11 @@ grpcc 127.0.0.1:8080 ikuaki.Service CreateWorld
 		client := grpcreflect.NewClient(context.Background(), rpb.NewServerReflectionClient(conn))
 
 		if len(args) == 1 {
-			// Just list the services on the server
+			// List the services on the server
 			services, err := client.ListServices()
 			if err != nil {
 				fmt.Printf("Failed to list services %v", err)
+				return
 			}
 			for _, s := range services {
 				fmt.Println(s)
@@ -67,7 +68,8 @@ grpcc 127.0.0.1:8080 ikuaki.Service CreateWorld
 			// List the methods belonging to the service
 			service, err := client.ResolveService(args[1])
 			if err != nil {
-				fmt.Printf("Service %s not found", service)
+				fmt.Printf("Service %s not found %v\n", service, err)
+				return
 			}
 			methods := service.GetMethods()
 			for _, m := range methods {
@@ -75,11 +77,12 @@ grpcc 127.0.0.1:8080 ikuaki.Service CreateWorld
 			}
 
 		} else if len(args) == 3 {
+			// List the request and response for this method
 			methodName := args[2]
-			// List the methods belonging to the service
 			service, err := client.ResolveService(args[1])
 			if err != nil {
 				fmt.Printf("Service %s not found", service)
+				return
 			}
 
 			m := service.FindMethodByName(methodName)

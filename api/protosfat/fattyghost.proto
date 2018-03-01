@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package Stymphalian.ikuaki.api.protosfat;
+option go_package = "github.com/Stymphalian/ikuaki/api/protosfat;Stymphalian.ikuaki.api.protosfat";
+
+message Fat {
+  string name = 1;
+}
+
+message Skinny {
+  string name = 1;
+  string last = 2;
+}

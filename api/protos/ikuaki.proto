@@ -1,7 +1,10 @@
 syntax = "proto3";
 
-package ikuaki;
+package Stymphalian.ikuaki.api.protos;
 
+import "github.com/Stymphalian/ikuaki/api/protosfat/fattyghost.proto";
+import "grpc_reflection_v1alpha/reflection.proto";
+option go_package = "github.com/Stymphalian/ikuaki/api/protos;Stymphalian.ikuaki.api.protos";
 
 service Lobby {
   rpc CreateWorld(CreateWorldReq) returns (CreateWorldRes) {}
@@ -10,6 +13,9 @@ service Lobby {
 
 message CreateWorldReq {
   string name = 1;
+  Stymphalian.ikuaki.api.protosfat.Fat fat = 2;
+  grpc.reflection.v1alpha.ServerReflectionRequest re = 3;
+  string last = 4;
 }
 message CreateWorldRes {
   string addr = 1;
@@ -43,7 +49,11 @@ message Empty {}
 message EnterReq {
   string name = 1;
 }
-message EnterRes {}
+message EnterRes {
+  // Rin rin = 1;
+  // fattyghost.Fat fat = 2;
+  // luma.RinChan rin = 1;
+}
 
 message ExitReq {}
 message ExitRes {}
