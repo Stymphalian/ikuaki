@@ -1,4 +1,4 @@
-// Copyright © 2018 NAME HERE <EMAIL ADDRESS>
+// Copyright © 2018 Jordan Yu <saturnslight@gmail.com>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ grpcc 127.0.0.1:8080 ikuaki.Service
 >> CreateAgent
 
 grpcc 127.0.0.1:8080 ikuaki.Service CreateWorld
->> 
+>> rpc CreateWorld(ikuaki.CreateWorldReq) returns (ikuaki.CreateWorldRes)
 `,
 	Args: cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
@@ -51,7 +51,9 @@ grpcc 127.0.0.1:8080 ikuaki.Service CreateWorld
 		conn, err := grpc.Dial(hostport, grpc.WithInsecure())
 		if err != nil {
 			fmt.Printf("Failed to reach server(%s) %v", hostport, err)
+			return
 		}
+		defer conn.Close()
 		client := grpcreflect.NewClient(context.Background(), rpb.NewServerReflectionClient(conn))
 
 		if len(args) == 1 {
@@ -100,16 +102,6 @@ grpcc 127.0.0.1:8080 ikuaki.Service CreateWorld
 
 func init() {
 	rootCmd.AddCommand(lsCmd)
-
-	// Here you will define your flags and configuration settings.
 	lsCmd.PersistentFlags().BoolVar(&lsCmdFlags.FMethodRpcMultiLine,
 		"method-multi-line", false, "Print out the method rpc on multiple lines")
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// lsCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// lsCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

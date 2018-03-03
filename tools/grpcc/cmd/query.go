@@ -1,4 +1,4 @@
-// Copyright © 2018 NAME HERE <EMAIL ADDRESS>
+// Copyright © 2018 Jordan Yu <saturnslight@gmail.com>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -31,14 +31,21 @@ import (
 var queryCmd = &cobra.Command{
 	Use:   "query",
 	Short: "get info about protos",
-	Long:  `Pass in the fully qualified proto name <package>.<message>`,
-	Args:  cobra.MinimumNArgs(2),
+	Long: `Pass in the fully qualified proto name <package>.<message> and this
+command will print out the proto message for you.`,
+	Example: `grpcc query 127.0.0.1:8080 ikuaki.CreateWorldReq
+>> message CreateWorldReq {
+	string name = 1;
+}`,
+	Args: cobra.MinimumNArgs(2),
 	Run: func(cmd *cobra.Command, args []string) {
 		hostport := args[0]
 		conn, err := grpc.Dial(hostport, grpc.WithInsecure())
 		if err != nil {
 			fmt.Printf("Failed to reach server(%s) %v", hostport, err)
+			return
 		}
+		defer conn.Close()
 		client := grpcreflect.NewClient(context.Background(),
 			rpb.NewServerReflectionClient(conn))
 
@@ -46,6 +53,7 @@ var queryCmd = &cobra.Command{
 		msg, err := client.ResolveMessage(msgName)
 		if err != nil {
 			fmt.Printf("Message %s not found\n", msgName)
+			return
 		}
 
 		p := protoprint.Printer{}
@@ -53,6 +61,7 @@ var queryCmd = &cobra.Command{
 		err = p.PrintProtoFile(msg.GetFile(), buf)
 		if err != nil {
 			fmt.Printf("Failed to print file\n")
+			return
 		}
 
 		// get the base message name (i.e. remove the package path)
@@ -75,14 +84,4 @@ var queryCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(queryCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// queryCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// queryCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

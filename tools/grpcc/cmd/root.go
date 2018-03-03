@@ -1,4 +1,4 @@
-// Copyright © 2018 NAME HERE <EMAIL ADDRESS>
+// Copyright © 2018 Jordan Yu <saturnslight@gmail.com>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,14 +15,19 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
+	"log"
 	"os"
+	"plugin"
 
+	grpcc "github.com/Stymphalian/ikuaki/tools/grpcc/plugin"
 	"github.com/spf13/cobra"
+	"google.golang.org/grpc"
 )
 
 var rootCmdFlags = struct {
-	Faddress string
+	Ffile string
 }{}
 
 // rootCmd represents the base command when called without any subcommands
@@ -32,14 +37,83 @@ var rootCmd = &cobra.Command{
 	Long: `GRPCC - GRPC Client. A tool which uses proto reflection to allow
 you to query any ip:port which is serving a GRPC service and make requests to 
 it.`,
-	Args: cobra.MinimumNArgs(2),
+	Example: `grpcc localhost:8080 ikuaki.World CreateWorld  <<EOF
+name: "jordan"
+EOF
+`,
+	Args: cobra.MinimumNArgs(3),
 	Run: func(cmd *cobra.Command, args []string) {
-		// 1st argument is the address
-		// 2nd argument is the service/method
-		// Read from stdin the request text proto
-		// make the request
-		// show the response
+		hostport := args[0]
+		serviceName := args[1]
+		methodName := args[2]
+
+		// dial to get the service
+		conn, err := grpc.Dial(hostport, grpc.WithInsecure())
+		if err != nil {
+			log.Println(err)
+			return
+		}
+		defer conn.Close()
+
+		// construct info from the connection
+		info, err := grpcc.NewInfo(hostport, serviceName, methodName, conn)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
+		// Run the requests/responses either a direct request or by running the
+		// user plugin file.
+		if rootCmdFlags.Ffile != "" {
+			err = loadAndRunPlugin(rootCmdFlags.Ffile, info)
+		} else {
+			if info.MethodDesc.IsClientStreaming() ||
+				info.MethodDesc.IsServerStreaming() {
+				log.Printf(`grpcc doesn't support streaming requests from just CLI,
+please supply a plugin file with --file`)
+				return
+			}
+			err = makeSingleRequest(info)
+		}
+		if err != nil {
+			log.Println(err)
+			return
+		}
 	},
+}
+
+func loadAndRunPlugin(filepath string, info *grpcc.Info) error {
+	p, err := plugin.Open(filepath)
+	if err != nil {
+		return err
+	}
+
+	fn, err := p.Lookup("Run")
+	if err != nil {
+		return err
+	}
+
+	return fn.(func(*grpcc.Info) error)(info)
+}
+
+func makeSingleRequest(info *grpcc.Info) error {
+	// Read from stdin the request text proto
+	req, err := ReadTextprotoFromStdin(info.RequestDesc)
+	if err != nil {
+		return fmt.Errorf("Failed to parse textproto %s", err)
+	}
+
+	// make the request
+	resp, err := info.Stub.InvokeRpc(
+		context.Background(), info.MethodDesc, req)
+	if err != nil {
+		return err
+	}
+
+	// show the response
+	fmt.Println()
+	fmt.Println(resp)
+	return nil
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -52,6 +126,7 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringVarP(&rootCmdFlags.Faddress, "address", "a",
-		"", "The address of the service <ip>:<host>")
+	rootCmd.PersistentFlags().StringVarP(&rootCmdFlags.Ffile, "file", "f",
+		"", `If provided then load this file as a plugin which is a program for 
+	running your own code with a stub to the server`)
 }

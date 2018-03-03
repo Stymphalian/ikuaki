@@ -2,10 +2,13 @@ package cmd
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
+	"os"
 	"strings"
 
 	"github.com/jhump/protoreflect/desc"
+	"github.com/jhump/protoreflect/dynamic"
 )
 
 func splitHostServiceMethod(s string) (
@@ -51,5 +54,17 @@ func getMethodString(m *desc.MethodDescriptor, multiLine bool) string {
 			m.GetName(), clientStream, m.GetInputType().GetFullyQualifiedName(),
 			serverStream, m.GetOutputType().GetFullyQualifiedName())
 	}
+}
 
+func ReadTextprotoFromStdin(in *desc.MessageDescriptor) (*dynamic.Message, error) {
+	all, err := ioutil.ReadAll(os.Stdin)
+	if err != nil {
+		return nil, err
+	}
+	dmsg := dynamic.NewMessage(in)
+	err = dmsg.UnmarshalText(all)
+	if err != nil {
+		return nil, err
+	}
+	return dmsg, nil
 }
