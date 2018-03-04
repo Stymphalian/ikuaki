@@ -18,6 +18,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/Stymphalian/ikuaki/tools/grpcc/common"
 	"github.com/jhump/protoreflect/grpcreflect"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
@@ -92,7 +93,7 @@ grpcc 127.0.0.1:8080 ikuaki.Service CreateWorld
 				fmt.Printf("Failed to find method: %s\n", methodName)
 				return
 			}
-			fmt.Print(getMethodString(m, lsCmdFlags.FMethodRpcMultiLine))
+			fmt.Print(common.GetMethodString(m, lsCmdFlags.FMethodRpcMultiLine))
 
 		} else {
 			// Ignoring extra args.

@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package server;
+
+option go_package = "github.com/Stymphalian/ikuaki/tools/grpcc/testing/server;server";
+
+service Lobby {
+  rpc CreateWorld(CreateWorldReq) returns (CreateWorldRes) {}
+  rpc ClientStream(stream CreateWorldReq) returns (CreateWorldRes) {}
+  rpc ServerStream(CreateWorldReq) returns (stream CreateWorldRes) {}
+  rpc BidiStream(stream CreateWorldReq) returns (stream CreateWorldRes) {}
+}
+
+message CreateWorldReq {
+  string name = 1;
+}
+message CreateWorldRes {
+  string addr = 1;
+}

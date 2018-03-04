@@ -9,9 +9,7 @@ import (
 	"github.com/Stymphalian/ikuaki/api/freeport"
 	"github.com/Stymphalian/ikuaki/api/lobby"
 
-	// googog "github.com/Stymphalian/ikuaki/api/lobby/client/protos"
 	pb "github.com/Stymphalian/ikuaki/api/protos"
-	// pb2 "github.com/Stymphalian/ikuaki/api/protosfat"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
@@ -29,9 +27,6 @@ func main() {
 		port = freeport.GetPortOrDie()
 	}
 	addr := fmt.Sprintf(":%d", port)
-
-	// fmt.Println(googog.Empty{})
-	// fmt.Println(pb2.Fat{})
 
 	lis, err := net.Listen("tcp", addr)
 	if err != nil {
