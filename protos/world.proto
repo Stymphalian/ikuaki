@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package Stymphalian.ikuaki;
+
+import "github.com/Stymphalian/ikuaki/protos/common.proto";
+option go_package = "github.com/Stymphalian/ikuaki/protos;Stymphalian.ikuaki";
+
+service World {
+  rpc Enter(EnterReq) returns (EnterRes) {}
+  rpc Exit(ExitReq) returns (ExitRes) {}
+  rpc Inform(stream InformReq) returns (stream InformRes) {}
+}
+
+message EnterReq {
+  string name = 1;
+}
+message EnterRes {
+}
+
+message ExitReq {}
+message ExitRes {}
+
+message InformReq {
+  string AgentName = 1;
+  string Text = 2;
+}
+message InformRes {
+  string Text = 1;
+}

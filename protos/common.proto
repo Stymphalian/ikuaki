@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package Stymphalian.ikuaki;
+
+option go_package = "github.com/Stymphalian/ikuaki/protos;Stymphalian.ikuaki";
+
+message AgentId {
+  string id = 1;
+}
+
+message Addr {
+  string hostport = 1;
+}

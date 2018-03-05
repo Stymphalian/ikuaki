@@ -1,0 +1,55 @@
+# Usage:
+# docker container stop ikuaki-world 
+# docker container rm ikuaki-world
+# docker build -t stymphalian/ikuaki-world:latest .
+# docker run --rm -v $(pwd):/go/bin --name ikuaki-world -it -p 8080:8080 stymphalian/ikuaki-world:latest
+
+# Start from a Debian image with the latest version of Go installed
+# and a workspace (GOPATH) configured at /go.
+FROM golang:1.10
+
+# Copy the local package files to the container's workspace.
+ADD . /go/src/github.com/Stymphalian/ikuaki/
+
+# Build the outyet command inside the container.
+# (You may fetch or manage dependencies here,
+# either manually or with a tool like "godep".)
+# RUN go get golang.org/x/tools/cmd/goimports
+# RUN cd /go/src/github.com/Stymphalian/ikuaki/
+# RUN goimports -w -v /go/src/github.com/Stymphalian/ikuaki/
+# RUN ls /go/src
+RUN go get github.com/golang/protobuf/proto
+RUN go get golang.org/x/net/context
+RUN go get google.golang.org/grpc
+RUN go get google.golang.org/grpc/reflection
+RUN go install github.com/Stymphalian/ikuaki/api/lobby/main
+
+# Run the outyet command by default when the container starts.
+ENTRYPOINT ["/go/bin/main", "--port=8080"]
+
+# Document that the service listens on port 8080.
+EXPOSE 8080
+
+# FROM golang:1.10
+# RUN mkdir -p /app
+# WORKDIR /app
+# ADD . /app
+# RUN cd /app/api/world/main
+# RUN cd api/world/main && go build main.go
+# EXPOSE 8080
+# CMD ["./api/world/main/main", "--port=8008"]
+
+
+# docker run -p 11112:8081 --rm -it stymphalian/ikuaki-world:latest
+# docker run --name ikuaki-agent -p 11112:8081 --rm -it --network=ikuaki-network  stymphalian/ikuaki-agent:latest
+FROM scratch
+COPY main /
+EXPOSE 8080
+CMD ["/main", "--port=8080"]
+
+# docker run -p 11111:8080 --rm -it stymphalian/ikuaki-world:latest
+# docker run --name=ikuaki-world -p 11111:8080 --rm -it --network=ikuaki-network stymphalian/ikuaki-world:latest
+FROM scratch
+COPY main /
+EXPOSE 8081
+CMD ["/main", "--port=8081", "--world_addr=ikuaki-world:8080", "--agent_name=jordan"]

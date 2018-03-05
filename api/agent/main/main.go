@@ -9,7 +9,7 @@ import (
 
 	"github.com/Stymphalian/ikuaki/api"
 	"github.com/Stymphalian/ikuaki/api/agent"
-	pb "github.com/Stymphalian/ikuaki/api/protos"
+	pb "github.com/Stymphalian/ikuaki/protos"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )
@@ -23,7 +23,7 @@ var (
 func runWorldInform(c pb.WorldClient, a *agent.Agent) {
 	stream, err := c.Inform(context.Background())
 	if err != nil {
-		log.Fatalf("Failed to create Inform stream")
+		log.Fatalf("Failed to create Inform stream. %v\n", err)
 	}
 	waitc := make(chan struct{})
 	go func() {

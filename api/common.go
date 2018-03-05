@@ -5,7 +5,7 @@ import (
 	"log"
 	"net"
 
-	"github.com/Stymphalian/ikuaki/api/freeport"
+	"github.com/Stymphalian/ikuaki/freeport"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )

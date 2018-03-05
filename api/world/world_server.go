@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io"
 
-	pb "github.com/Stymphalian/ikuaki/api/protos"
+	pb "github.com/Stymphalian/ikuaki/protos"
 )
 
 type World struct {

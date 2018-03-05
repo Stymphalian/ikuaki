@@ -1,0 +1,14 @@
+Syntax:
+RowKey := string
+  
+
+Types:
+world_id string
+agent_id string
+
+# Worlds
+worlds: := List[world_id]
+worlds:<world_id> := World
+
+# Agents
+agents := List[agent_id]

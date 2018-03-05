@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package Stymphalian.ikuaki;
+
+import "github.com/Stymphalian/ikuaki/protos/common.proto";
+option go_package = "github.com/Stymphalian/ikuaki/protos;Stymphalian.ikuaki";
+
+service Lobby {
+  rpc Create(CreateReq) returns (CreateRes) {}
+  rpc Destroy(DestroyReq) returns (DestroyRes) {}
+  rpc List(ListReq) returns (ListRes) {}
+}
+
+enum ServerTypeEnum  {
+  UNKNOWN_SERVER = 0;
+  WORLD_SERVER = 1;
+  AGENT_SERVER = 2;
+}
+
+// Create
+message CreateReq {
+  string binary_path = 1;
+  ServerTypeEnum server_type = 2; 
+}
+message CreateRes {
+  string id = 1;
+  Addr addr = 2;
+}
+
+// Destroy
+message DestroyReq {
+  string id = 1;
+  ServerTypeEnum server_type = 2;
+}
+message DestroyRes {
+}
+
+// Listing
+message ListReq {
+  ServerTypeEnum server_type = 1;
+}
+message ListRes {
+  // A map[server_id]Addr
+  // maps the server id to the hostport you can find the server on
+  map<string, Addr> servers = 1;
+}

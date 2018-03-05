@@ -6,10 +6,10 @@ import (
 	"log"
 	"net"
 
-	"github.com/Stymphalian/ikuaki/api/freeport"
 	"github.com/Stymphalian/ikuaki/api/lobby"
+	"github.com/Stymphalian/ikuaki/freeport"
 
-	pb "github.com/Stymphalian/ikuaki/api/protos"
+	pb "github.com/Stymphalian/ikuaki/protos"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )

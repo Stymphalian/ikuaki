@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package Stymphalian.ikuaki;
+
+import "github.com/Stymphalian/ikuaki/protos/common.proto";
+option go_package = "github.com/Stymphalian/ikuaki/protos;Stymphalian.ikuaki";
+
+service Agent {
+  // information from the world server
+  rpc Update(stream UpdateReq) returns (UpdateRes) {}
+}
+
+message UpdateRes {
+  string Text = 1;
+}
+message UpdateReq {
+  string Text = 1 ;
+}

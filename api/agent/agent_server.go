@@ -1,7 +1,7 @@
 package agent
 
 import (
-	pb "github.com/Stymphalian/ikuaki/api/protos"
+	pb "github.com/Stymphalian/ikuaki/protos"
 )
 
 type Agent struct {

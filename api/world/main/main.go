@@ -4,7 +4,7 @@ import (
 	"flag"
 
 	"github.com/Stymphalian/ikuaki/api"
-	pb "github.com/Stymphalian/ikuaki/api/protos"
+	pb "github.com/Stymphalian/ikuaki/protos"
 	"github.com/Stymphalian/ikuaki/api/world"
 	"google.golang.org/grpc"
 )
