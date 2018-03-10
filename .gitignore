@@ -20,3 +20,4 @@
 notes.dev.txt
 rafia/data/*.pem
 debug
+vendor/

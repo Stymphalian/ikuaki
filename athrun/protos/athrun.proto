@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package Stymphalian.ikuaki.athrun;
+
+option go_package = "github.com/Stymphalian/ikuaki/athrun/protos;Stymphalian.ikuaki.athrun";
+
+service Athrun {
+  // An RPC call to do a 'go build' for a single binary
+  rpc Build(BuildRequest) returns (BuildResponse) {}
+
+  // Query the server for the environment in which it is building.
+  // Things like the GOPATH, and the OUTPUT directory
+  rpc Env(EnvRequest) returns (EnvResponse) {}
+}
+
+message BuildRequest {
+  // REQUIRED
+  // A filepath relative to the GOPATH which specified the package to build.
+  // The package should point to a binary to be built.
+  string filepath = 1;
+
+  // REQUIRED
+  // The name you want to give the binary
+  string  name = 2;
+
+  // OPTIONAL
+  // Additional 'go build' arguments to pass to the build
+  repeated string args = 3;
+
+  // OPTIONAL
+  // If binary with the given name already exists are we allowed to overwrite?
+  bool overwrite = 4;
+}
+
+message BuildResponse {
+  // The full filepath for where you can find the built binary
+  string output_filepath = 1;
+
+  // The stdout from the running the command
+  string stdout = 2;
+
+  // The command which was run to build the binary.
+  repeated string command = 3;
+}
+
+message EnvRequest {
+  // OPTIONAL
+  // The specific arguments to returns. Leave as empty to receive all the 
+  // environemnt variables from the server
+  // Valid flags to request:
+  //   ADDR
+  //   GOPATH
+  //   OUTPUT_DIR
+  repeated string args = 1;
+}
+
+message EnvResponse {
+  // Map from environment name to value.
+  map<string, string> env = 1;
+}

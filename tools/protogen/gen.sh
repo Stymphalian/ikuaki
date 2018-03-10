@@ -13,4 +13,7 @@ protoc \
   github.com/Stymphalian/ikuaki/protos/world.proto \
   github.com/Stymphalian/ikuaki/protos/agent.proto
 
-  
+protoc \
+  --proto_path=$GOPATH/src \
+  --go_out=plugins=grpc:$GOPATH/src \
+  github.com/Stymphalian/ikuaki/athrun/protos/athrun.proto
