@@ -1,0 +1,14 @@
+version: '3'
+services: 
+  world:
+    image: stymphalian/ikuaki-lobby:latest
+    deploy:
+      replicas: 1
+    ports:
+      - "11111:8080"
+    networks:
+      - network
+networks:
+  network:
+
+  

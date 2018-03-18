@@ -1,0 +1,44 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ikuaki-agent
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ikuaki
+        role: agent
+        tier: backend
+    spec:
+      containers:
+      - name: ikuaki-agent
+        image: stymphalian/ikuaki-agent:v1
+        ports:
+          - containerPort: 8081
+        command: ["/main"]
+        args: [
+          "--port=8081",
+          "--world_addr=ikuaki-world:8080",
+          # "--world_addr=172.17.0.4:8080",
+          "--agent_name=jordan"
+        ]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ikuaki-agent
+  labels:
+    app: ikuaki
+    role: agent
+    tier: backend
+spec:
+  type: NodePort  
+  ports:
+  - name: agent
+    port: 8081
+  selector:
+    app: ikuaki
+    role: agent
+    tier: backend
+        

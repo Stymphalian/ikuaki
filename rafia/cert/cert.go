@@ -98,7 +98,7 @@ func WritePrivateKeyAsPEM(key *rsa.PrivateKey, outputFilepath string) error {
 func WriteCertAsPEM(certBytes []byte, outputFilepath string) error {
 	certOut, err := os.Create(outputFilepath)
 	if err != nil {
-		log.Printf("failed to open "+outputFilepath+" for writing: %s", err)
+		log.Printf("failed to open %s for writing: %s", outputFilepath, err)
 		return err
 	}
 	defer certOut.Close()

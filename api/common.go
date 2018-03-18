@@ -6,6 +6,7 @@ import (
 	"net"
 
 	"github.com/Stymphalian/ikuaki/freeport"
+	"github.com/kr/pretty"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
@@ -39,4 +40,8 @@ func RunServerOrDie(registerServer RegisterServerFn) {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	RunServerPortOrDie(port, registerServer)
+}
+
+func PrettyPrint(x interface{}) {
+	fmt.Printf("%# v", pretty.Formatter(x))
 }

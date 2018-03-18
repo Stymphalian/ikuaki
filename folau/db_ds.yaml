@@ -1,0 +1,49 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ikuaki-redis
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: redis
+        role: master
+        tier: backend
+    spec:
+      containers:
+      - name: ikuaki-redis
+        image: redis
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 6379
+        volumeMounts:
+        - name: redis-storage
+          mountPath: /data
+      # volumes:
+      # - name: redis-storage
+      #   emptyDir: {}
+      volumes:
+      - name: redis-storage
+        persistentVolumeClaim:
+          claimName: ikuaki-redis-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ikuaki-redis
+  labels:
+    app: redis
+    role: master
+    tier: backend
+spec:
+  type: NodePort  
+  ports:
+  - port: 6379
+    targetPort: 6379
+    nodePort: 30001
+  selector:
+    app: redis
+    role: master
+    tier: backend

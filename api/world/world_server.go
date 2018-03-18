@@ -28,5 +28,4 @@ func (this *World) Inform(stream pb.World_InformServer) error {
 		}
 		fmt.Printf("%s told world %s\n", in.AgentName, in.Text)
 	}
-	return nil
 }

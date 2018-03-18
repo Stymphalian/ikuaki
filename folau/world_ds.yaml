@@ -1,0 +1,71 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ikuaki-world
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ikuaki
+        role: world
+        tier: backend
+    spec:
+      containers:
+      - name: ikuaki-world
+        image: stymphalian/ikuaki-world:v1
+        ports:
+          - containerPort: 8080
+        command: ["/main"]
+        args: ["--port=8080"]
+        volumeMounts:
+        - name: ikuaki-secret-volume
+          mountPath: "/data/secrets"
+          readOnly: true
+        - name: ikuaki-config-volume
+          mountPath: "/data/configs"
+          readOnly: true
+      volumes:
+      - name: ikuaki-secret-volume
+        secret:
+          secretName: ikuaki-secret
+      - name: ikuaki-config-volume
+        configMap:
+          name: ikuaki-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ikuaki-world
+  labels:
+    app: ikuaki
+    role: world
+    tier: backend
+spec:
+  type: NodePort  
+  ports:
+  - name: world
+    port: 8080
+    nodePort: 30001
+  selector:
+    app: ikuaki
+    role: world
+    tier: backend
+        
+
+
+# apiVersion: v1
+# kind: Pod
+# metadata:
+#   name: ikuaki-world
+# spec:
+#   containers:
+#   - name: ikuaki-world
+#     image: stymphalian/ikuaki-world:v1
+#     ports:
+#       - containerPort: 8080
+#   - name: ikuaki-agent
+#     image: stymphalian/ikuaki-agent:v1
+#     ports:
+#       - containerPort: 8081
+    
