@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Stymphalian/ikuaki/api/freeport"
+	"github.com/Stymphalian/ikuaki/freeport"
 	pb "github.com/Stymphalian/ikuaki/tools/grpcc/testing/server"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"

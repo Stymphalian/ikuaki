@@ -1,0 +1,45 @@
+package: github.com/Stymphalian/ikuaki
+import:
+- package: github.com/docker/docker
+  version: ^17.5.0-ce-rc3
+  subpackages:
+  - api/types
+  - api/types/container
+  - client
+- package: github.com/golang/protobuf
+  version: ^1.0.0
+  subpackages:
+  - proto
+- package: github.com/jhump/protoreflect
+  subpackages:
+  - desc
+  - desc/protoprint
+  - dynamic
+  - dynamic/grpcdynamic
+  - grpcreflect
+- package: github.com/kr/pretty
+- package: github.com/mattn/go-sqlite3
+  version: ^1.6.0
+- package: github.com/mgutz/ansi
+- package: github.com/spf13/cobra
+  version: ^0.0.1
+- package: golang.org/x/net
+  subpackages:
+  - context
+- package: google.golang.org/grpc
+  version: ^1.10.0
+  subpackages:
+  - credentials
+  - reflection
+  - reflection/grpc_reflection_v1alpha
+- package: k8s.io/apimachinery
+  subpackages:
+  - pkg/api/errors
+  - pkg/apis/meta/v1
+- package: k8s.io/client-go
+  version: ^6.0.0
+  subpackages:
+  - kubernetes
+  - rest
+- package: github.com/google/uuid
+  version: ^0.2.0

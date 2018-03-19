@@ -19,6 +19,7 @@ var (
 )
 
 func main() {
+	// Parse all the flags
 	flag.Parse()
 	var port int
 	if *fPort != 0 {
@@ -26,8 +27,9 @@ func main() {
 	} else {
 		port = freeport.GetPortOrDie()
 	}
-	addr := fmt.Sprintf(":%d", port)
 
+	// Create a listener
+	addr := fmt.Sprintf(":%d", port)
 	lis, err := net.Listen("tcp", addr)
 	if err != nil {
 		log.Fatal(err)

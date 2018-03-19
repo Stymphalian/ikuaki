@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ikuaki-world
+  labels:
+    app: ikuaki
+    role: world
+    tier: backend
+spec:
+  containers:
+  - name: ikuaki-world
+    image: stymphalian/ikuaki-world:v1
+    ports:
+      - containerPort: 8080
+    command: ["/main"]
+    args: ["--port=8080"]

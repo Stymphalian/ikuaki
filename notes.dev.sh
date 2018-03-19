@@ -6,6 +6,9 @@ npm install -g grpcc
 npm uninstall -g grpcc
 grpcc --proto=./ikuaki.proto --address=127.0.0.1:42657 -i
 
+glide init
+glide update --strip-vendor
+
 
 # protoc \
 #   --proto_path=$GOPATH/src/google.golang.org/grpc/reflection/ \
@@ -174,12 +177,13 @@ kubectl proxy --port=8080 &
 curl http://localhost:8080/api/
 
 
-pushd $GOPATH/src/github.com/Stymphalian/ikuaki/bin/
-CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o ikuaki-world github.com/Stymphalian/ikuaki/api/world/main
-popd
 pushd $GOPATH/src/github.com/Stymphalian/ikuaki/
+CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o bin/ikuaki-world github.com/Stymphalian/ikuaki/api/world/main
+CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o bin/ikuaki-lobby github.com/Stymphalian/ikuaki/api/lobby/main
+docker build -q -t=stymphalian/ikuaki-lobby:v1 -f=data/ikuaki-lobby.dockerfile .
 docker build -q -t=stymphalian/ikuaki-world:v1 -f=data/ikuaki-world.dockerfile .
-docker image prune --force
+docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
 popd
+
 kubectl delete services,deploy ikuaki-world
 kubectl create -f world_d.yaml

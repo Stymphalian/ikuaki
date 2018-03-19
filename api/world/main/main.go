@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"path/filepath"
 
 	"github.com/Stymphalian/ikuaki/api"
 	"github.com/Stymphalian/ikuaki/api/world"
@@ -34,14 +33,14 @@ func main() {
 		port = *fPort
 	}
 
-	ReadFilePrint("/data/secrets/api_key")
-	ReadFilePrint("/data/secrets/api_key2")
-	ReadFilePrint("/data/configs/undine.properties")
-	files, err := filepath.Glob("/data/configs/*")
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(files)
+	// ReadFilePrint("/data/secrets/api_key")
+	// ReadFilePrint("/data/secrets/api_key2")
+	// ReadFilePrint("/data/configs/undine.properties")
+	// files, err := filepath.Glob("/data/configs/*")
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// fmt.Println(files)
 
 	api.RunServerPortOrDie(port, func(s *grpc.Server) {
 		pb.RegisterWorldServer(s, &world.World{})

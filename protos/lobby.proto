@@ -19,7 +19,9 @@ enum ServerTypeEnum  {
 
 // Create
 message CreateReq {
-  string binary_path = 1;
+  // Additional args to pass when creating this server
+  map<string, string> args = 1;
+
   ServerTypeEnum server_type = 2; 
 }
 message CreateRes {

@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ikuaki-agent
+  labels:
+    app: ikuaki
+    role: agent
+    tier: backend
+spec:
+  containers:
+  - name: ikuaki-agent
+    image: stymphalian/ikuaki-agent:v1
+    ports:
+      - containerPort: 8081
+    command: ["/main"]
+    args: [
+      "--port=8081",
+      "--agent_name=jordan"
+      # "--world_addr=172.17.0.3:8080",
+    ]
